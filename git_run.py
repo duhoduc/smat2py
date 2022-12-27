@@ -109,12 +109,12 @@ import subprocess
 
 import time
 import subprocess
-def gitActions(path2repo, url = None, command = 'init', commitMess = '"init commit"',branch_name = 'main'):
+def gitActions(path2repo, command = 'init',url = None, commitMess = '"init commit"',branch_name = 'main'):
     if url is None:
         url = 'git@github.com:duhoduc/smat2py.git'
         
     commands = ['init','clone','add','commit','push','pull','remote_add', 'branch_main','branch_test',
-                'checkout']
+                'checkout','pull','merge','delete']
     cmd = ['git']
     if command in commands:
         if command == 'init':
@@ -173,6 +173,21 @@ def gitActions(path2repo, url = None, command = 'init', commitMess = '"init comm
         elif command == 'pull':
             cmd.extend(['pull','origin',branch_name])
             out,error = gitRun(cmd, path2repo)
+        
+    
+        elif command == 'merge':
+            # $ git checkout master
+            # $ git merge hotfix
+            gitActions(path2repo,'checkout',branch_name = 'main')
+            cmd.extend(['merge','test'])
+            out,error = gitRun(cmd, path2repo)
+            
+        elif command == 'delete':
+            #
+            
+            cmd.extend(['branch','-d','test'])
+            out,error = gitRun(cmd, path2repo)
+            
         return out,error
     else:
         print(f'{command} is not valid')
@@ -220,7 +235,7 @@ out,error = gitActions(path2repo,command = 'add')
 print(out,error)
 #%%
 
-out,error = gitActions(path2repo,command = 'commit',commitMess = 'new gitrun pull')
+out,error = gitActions(path2repo,command = 'commit',commitMess = 'second commit test')
 print(out,error)
 #%%
 out,error = gitActions(path2repo,command = 'branch_main')
@@ -260,8 +275,9 @@ print(out,error)
 # gitCommit(uploaddate, repoDir)
 # gitPush(repoDir)
 
-
-
+#%% merge two branch
+out,error = gitActions(path2repo,command = 'merge',branch_name = 'test')
+print(out,error)
 
 
 
