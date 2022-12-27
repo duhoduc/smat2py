@@ -231,10 +231,6 @@ print(out,error)
 
 
 #%%
-out,error = git.gitActions(path2repo,command = 'branch_test')
-print(out,error)
-
-#%%
 out,error = git.gitActions(path2repo,command = 'checkout',branch='main')
 print(out,error)
 
