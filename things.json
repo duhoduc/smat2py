@@ -1,0 +1,25 @@
+{
+    "examples": {
+        "atmosAttenModelGet": "atmosAttenModelGet.m"
+    },
+    "git_run": "git_run.py",
+    "main": "main.py",
+    "src": {
+        "backend": "backend.py",
+        "callgraph": "callgraph.py",
+        "lexer": "lexer.py",
+        "libsmop": "libsmop.py",
+        "mygraphviz": "mygraphviz.py",
+        "node": "node.py",
+        "options": "options.py",
+        "parse": "parse.py",
+        "parsetab": "parsetab.py",
+        "recipes": "recipes.py",
+        "resolve": "resolve.py",
+        "rewrite": "rewrite.py",
+        "struct": "struct.py",
+        "__init__": "__init__.py"
+    },
+    "test1": "test1.py",
+    "things": "things.json"
+}
