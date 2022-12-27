@@ -220,7 +220,7 @@ out,error = gitActions(path2repo,command = 'add')
 print(out,error)
 #%%
 
-out,error = gitActions(path2repo,command = 'commit',commitMess = 'new gitrun')
+out,error = gitActions(path2repo,command = 'commit',commitMess = 'new gitrun pull')
 print(out,error)
 #%%
 out,error = gitActions(path2repo,command = 'branch_main')
@@ -243,6 +243,11 @@ print(out,error)
 
 #%%
 out,error = gitActions(path2repo,command = 'remote_add',url = url)
+print(out,error)
+
+#%%
+#%%
+out,error = gitActions(path2repo,command = 'push',branch_name = 'main')
 print(out,error)
 
 #%%
