@@ -147,10 +147,12 @@ class git():
                     print(f'Wwarning: main will not be deleted')
                 else:
                     print(f'Wwarning: {branch} is going to be deleted')
-                    cmd.extend(['branch','--delete',branch])
+                    cmd.extend(['branch','-d',branch])
                     out,error = git.gitRun(cmd, path2repo)
+                    
                     #delete remote branch
-                    cmd.extend(['push','origin','--delete',branch])
+                    cmd = ['git']
+                    cmd.extend(['push','origin','-d',branch])
                     out,error = git.gitRun(cmd, path2repo)
             elif command == 'help':
                 cmd.extend([command,'-a'])
@@ -199,7 +201,7 @@ out,error = git.gitActions(path2repo,command = 'init')
 print(out,error)
 
 #%%
-out,error = git.gitActions(path2repo,command = 'add')
+out,error = git.gitActions(path2repo,command = 'add', filename = 'git_run.py')
 print(out,error)
 #%%
 
@@ -219,23 +221,12 @@ print(out,error)
 out,error = git.gitActions(path2repo,command = 'branch',branch='')
 print(out,error)
 
-#%%
-out,error = git.gitActions(path2repo,command = 'checkout',branch='main')
-print(out,error)
-
-#%%
-out,error = git.gitActions(path2repo,command = 'checkout',branch='test')
-print(out,error)
 
 #%% recover delete files
 # git checkout HEAD . in main branch
 
 #%%
 out,error = git.gitActions(path2repo,command = 'remote_add',url = url)
-print(out,error)
-
-#%%
-out,error = git.gitActions(path2repo,command = 'push',branch_name = 'test')
 print(out,error)
 
 
@@ -244,21 +235,13 @@ out,error = git.gitActions(path2repo,command = 'branch_test')
 print(out,error)
 
 #%%
-out,error = git.gitActions(path2repo,command = 'checkout',branch_name='main')
+out,error = git.gitActions(path2repo,command = 'checkout',branch='main')
 print(out,error)
 
 #%%
-out,error = git.gitActions(path2repo,command = 'checkout',branch_name='test')
+out,error = git.gitActions(path2repo,command = 'checkout',branch='test')
 print(out,error)
 
-#%% recover delete files
-# git checkout HEAD . in main branch
-
-#%%
-out,error = git.gitActions(path2repo,command = 'remote_add',url = url)
-print(out,error)
-
-#%%
 #%%
 out,error = git.gitActions(path2repo,command = 'push',branch = 'main')
 print(out,error)
@@ -270,8 +253,11 @@ print(out,error)
 #%%
 out,error = git.gitActions(path2repo,command = 'pull',branch = 'main')
 print(out,error)
-# gitCommit(uploaddate, repoDir)
-# gitPush(repoDir)
+
+
+#%%
+out,error = git.gitActions(path2repo,command = 'pull',branch = 'test')
+print(out,error)
 
 #%% merge two branch
 out,error = git.gitActions(path2repo,command = 'merge',branch = 'test')
