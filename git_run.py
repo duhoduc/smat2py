@@ -109,8 +109,12 @@ import subprocess
 
 import time
 import subprocess
-def gitActions(path2repo, url = 'git@github.com:duhoduc/smat2py.git', command = 'init', commitMess = '"init commit"'):
-    commands = ['init','clone','add','commit','push','pull','remote_add', 'branch']
+def gitActions(path2repo, url = None, command = 'init', commitMess = '"init commit"',branch_name = 'main'):
+    if url is None:
+        url = 'git@github.com:duhoduc/smat2py.git'
+        
+    commands = ['init','clone','add','commit','push','pull','remote_add', 'branch_main','branch_test',
+                'checkout']
     cmd = ['git']
     if command in commands:
         if command == 'init':
@@ -143,16 +147,31 @@ def gitActions(path2repo, url = 'git@github.com:duhoduc/smat2py.git', command = 
             out,error = gitRun(cmd, path2repo)
             
         elif command == 'push':
-            cmd.extend(['push','-u','origin','main'])
+            cmd.extend(['push','origin',branch_name])
             # cmd.append('push')
             # cmd.append('-u')
             # cmd.append('origin')
             # cmd.append('main')
-            cmd.append(url)
+            # cmd.append(url)
             out,error = gitRun(cmd, path2repo)
-        elif command == 'branch':
-            cmd.append('branch')
-            cmd.append('main')
+            
+        elif command == 'branch_main':
+            cmd.extend(['branch','main'])
+            out,error = gitRun(cmd, path2repo)
+            
+        elif command == 'branch_test':
+            cmd.extend(['branch','test'])
+            out,error = gitRun(cmd, path2repo)
+            
+        elif command == 'checkout':
+            cmd.extend(['checkout',branch_name])
+            out,error = gitRun(cmd, path2repo)
+            
+        elif command == 'clone':
+            cmd.extend(['clone',url])
+            out,error = gitRun(cmd, path2repo)
+        elif command == 'pull':
+            cmd.extend(['pull','origin',branch_name])
             out,error = gitRun(cmd, path2repo)
         return out,error
     else:
@@ -183,21 +202,56 @@ gitActions(os.getcwd(),url )
 
 #%%
 path2repo = "C:\\Users\\Du Ho\\OneDrive - Qamcom Research & Technology AB\\ICX KaSS\\smat2py"
-url = 'git@github.com:duhoduc/smat2py.git'
+url = "git@github.com:duhoduc/smat2py.git"
+
+#%% 
+import os
+path2main_repo = os.path.dirname(path2repo)
+out,error = gitActions(path2main_repo,command = 'clone')
+print(out,error)
 
 #%% init
 
-out,_ = gitActions(path2repo,command = 'init')
-print(out)
+out,error = gitActions(path2repo,command = 'init')
+print(out,error)
 
 #%%
 out,error = gitActions(path2repo,command = 'add')
-
+print(out,error)
 #%%
 
-out,error = gitActions(path2repo,command = 'commit')
+out,error = gitActions(path2repo,command = 'commit',commitMess = 'new gitrun')
+print(out,error)
+#%%
+out,error = gitActions(path2repo,command = 'branch_main')
+print(out,error)
 
+#%%
+out,error = gitActions(path2repo,command = 'branch_test')
+print(out,error)
 
+#%%
+out,error = gitActions(path2repo,command = 'checkout',branch_name='main')
+print(out,error)
+
+#%%
+out,error = gitActions(path2repo,command = 'checkout',branch_name='test')
+print(out,error)
+
+#%% recover delete files
+# git checkout HEAD . in main branch
+
+#%%
+out,error = gitActions(path2repo,command = 'remote_add',url = url)
+print(out,error)
+
+#%%
+out,error = gitActions(path2repo,command = 'push',branch_name = 'test')
+print(out,error)
+
+#%%
+out,error = gitActions(path2repo,command = 'pull',branch_name = 'main')
+print(out,error)
 # gitCommit(uploaddate, repoDir)
 # gitPush(repoDir)
 
