@@ -9,10 +9,6 @@ import numpy as np
 import sys
 import json
 
-
-
-
-
 #%%
 
 import subprocess
@@ -84,7 +80,7 @@ class git():
         # single command
         if url is None:
             url = 'git@github.com:duhoduc/smat2py.git'
-        commands = ['init','status','clone','add','commit','remoteadd','branch','checkout','push','pull',
+        commands = ['init','status','clone','add','commit','remote_add','branch','checkout','push','pull',
                     'merge','delete','help']
         cmd = ['git']
         if command in commands or not os.path.isdir(path2repo):
@@ -126,7 +122,10 @@ class git():
                 
             elif command == 'branch':
                 #List, create, or delete branches
-                cmd.extend([command,branch])
+                if branch == '':
+                    cmd.extend([command])
+                else:
+                    cmd.extend([command,branch])
                 out,error = git.gitRun(cmd, path2repo)
                 
             elif command == 'checkout':
@@ -139,7 +138,7 @@ class git():
             
             elif command == 'merge':
                 git.gitActions(path2repo,'checkout',branch = 'main')
-                cmd.extend(['merge','test'])
+                cmd.extend(['merge',branch])
                 out,error = git.gitRun(cmd, path2repo)
                 
             elif command == 'delete':
@@ -148,10 +147,10 @@ class git():
                     print(f'Wwarning: main will not be deleted')
                 else:
                     print(f'Wwarning: {branch} is going to be deleted')
-                    cmd.extend(['branch','-d',branch])
+                    cmd.extend(['branch','--delete',branch])
                     out,error = git.gitRun(cmd, path2repo)
                     #delete remote branch
-                    cmd.extend(['push','origin','-d',branch])
+                    cmd.extend(['push','origin','--delete',branch])
                     out,error = git.gitRun(cmd, path2repo)
             elif command == 'help':
                 cmd.extend([command,'-a'])
@@ -181,15 +180,17 @@ git.toJson(currObj)
 currObj2 = git.fromJson()
 currFolder2, currObj2 = git.getlist(pp2)
 
+
+
 #%%
 path2repo = "C:\\Users\\Du Ho\\OneDrive - Qamcom Research & Technology AB\\ICX KaSS\\smat2py"
 url = "git@github.com:duhoduc/smat2py.git"
 
 
-#%% 
-
+#%% test clone
+url_clone = 'git@github.com:duhoduc/smop.git'
 path2main_repo = os.path.dirname(path2repo)
-out,error = git.gitActions(path2main_repo,command = 'clone')
+out,error = git.gitActions(path2main_repo,command = 'clone',url = url_clone)
 print(out,error)
 
 #%% init
@@ -203,23 +204,27 @@ print(out,error)
 #%%
 
 
-out,error = git.gitActions(path2repo,command = 'commit',commitMess = 'second commit test')
+out,error = git.gitActions(path2repo,command = 'commit',commitMess = 'new delete git_run.py')
 
 print(out,error)
 #%%
-out,error = git.gitActions(path2repo,command = 'branch_main')
+out,error = git.gitActions(path2repo,command = 'branch',branch='main')
 print(out,error)
 
 #%%
-out,error = git.gitActions(path2repo,command = 'branch_test')
+out,error = git.gitActions(path2repo,command = 'branch',branch='test')
+print(out,error)
+
+#%% get list branch
+out,error = git.gitActions(path2repo,command = 'branch',branch='')
 print(out,error)
 
 #%%
-out,error = git.gitActions(path2repo,command = 'checkout',branch_name='main')
+out,error = git.gitActions(path2repo,command = 'checkout',branch='main')
 print(out,error)
 
 #%%
-out,error = git.gitActions(path2repo,command = 'checkout',branch_name='test')
+out,error = git.gitActions(path2repo,command = 'checkout',branch='test')
 print(out,error)
 
 #%% recover delete files
@@ -255,29 +260,36 @@ print(out,error)
 
 #%%
 #%%
-out,error = git.gitActions(path2repo,command = 'push',branch_name = 'main')
+out,error = git.gitActions(path2repo,command = 'push',branch = 'main')
 print(out,error)
 
 #%%
-out,error = git.gitActions(path2repo,command = 'push',branch_name = 'test')
+out,error = git.gitActions(path2repo,command = 'push',branch = 'test')
 print(out,error)
 
 #%%
-out,error = git.gitActions(path2repo,command = 'pull',branch_name = 'main')
+out,error = git.gitActions(path2repo,command = 'pull',branch = 'main')
 print(out,error)
 # gitCommit(uploaddate, repoDir)
 # gitPush(repoDir)
 
 #%% merge two branch
-out,error = git.gitActions(path2repo,command = 'merge',branch_name = 'test')
-print(out.decode(),error.decode())
+out,error = git.gitActions(path2repo,command = 'merge',branch = 'test')
+print(out,error)
  # after fixing merge conflict, we just have to push origin main
 
 
 #%%
 out,error = git.gitActions(path2repo,command = 'status')
-print(out.decode(),error.decode())
+print(out,error)
 
+#%% help
+out,error = git.gitActions(path2repo,command = 'help')
+print(out,error)
+
+#%% delete
+out,error = git.gitActions(path2repo,command = 'delete',branch = 'test')
+print(out,error)
 
 
 
