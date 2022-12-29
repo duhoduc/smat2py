@@ -33,6 +33,4 @@ In CPython, the compilation from source code to bytecode involves several steps:
 + Transform AST into a Control Flow Graph (Python/compile.c)
 + Emit bytecode based on the Control Flow Graph (Python/compile.c)
 The purpose of this document is to outline how these steps of the process work.
-This document does not touch on how parsing works beyond what is needed to explain what 
-is needed for compilation. It is also not exhaustive in terms of the how the entire system 
-works. You will most likely need to read some source to have an exact understanding of all details.
+This document does not touch on how parsing works beyond what is needed to explain what is needed for compilation. It is also not exhaustive in terms of the how the entire system works. You will most likely need to read some source to have an exact understanding of all details.

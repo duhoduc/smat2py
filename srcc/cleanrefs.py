@@ -71,3 +71,20 @@ for idx in idx_c:
     
 for idx in idx_coms:
     print(outs[idx])
+    
+    
+#%%
+import tokenize
+
+with open('__pyrefs.py', 'rb') as f:
+    tokens = tokenize.tokenize(f.readline)
+    for token in tokens:
+        print(token)
+#%%
+with tokenize.open('__pyrefs.py') as f:
+    tokens = tokenize.generate_tokens(f.readline)
+    for token in tokens:
+        print(token)
+        
+        
+        

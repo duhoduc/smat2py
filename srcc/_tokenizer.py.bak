@@ -4,7 +4,7 @@ Created on Wed Dec 28 14:10:32 2022
 
 @author: Du Ho
 """
-# https://docs.python.org/3/library/tokenize.html#module-tokenize
+
 # A tokenizer or scanner analyzes a string to categorize groups of characters. 
 # This is a useful first step in writing a compiler or interpreter.
 
